@@ -88,8 +88,8 @@ FactoryBot.define do
     first_name  { Mokkku::User.first_name }
     last_name   { Mokkku::User.last_name }
     location    { Mokkku::User.location }
-  end
 
-  after(:build) { |_| Mokkku::User.reset_context! }
+    after(:build) { |_| Mokkku::User.reset_context! }
+  end
 end
 ```
