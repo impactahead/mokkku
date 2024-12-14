@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pry'
 
 RSpec.describe Mokkku do
   before(:all) do
@@ -29,5 +30,18 @@ RSpec.describe Mokkku do
 
   it 'raises error when class does not exist' do
     expect { Mokkku::User.first_name }.to raise_error(Errno::ENOENT)
+  end
+
+  it 'raises error when retry limit is exceeded' do
+    Mokkku::Company.reset_context!
+    Mokkku::UniqueUtils.clear
+
+    Mokkku::Company.name
+    Mokkku::Company.reset_context!
+
+    Mokkku::Company.name
+    Mokkku::Company.reset_context!
+
+    expect { Mokkku::Company.name }.to raise_error(Mokkku::UniqueUtils::RetryLimitExceeded)
   end
 end

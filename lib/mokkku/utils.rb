@@ -1,5 +1,6 @@
 require 'yaml'
 require_relative 'mocked_object'
+require_relative 'uniq_utils'
 
 module Mokkku
   module Utils
@@ -11,11 +12,12 @@ module Mokkku
         mock_path = File.join(Mokkku.configuration.mocks_path, "#{mock_file_name}.yml")
         data = File.read(mock_path)
         parsed_data = YAML.safe_load(data, symbolize_names: true)
-        mocked_object = Mokkku::MockedObject.new(parsed_data)
+        mocked_object = Mokkku::MockedObject.new(const_name.to_s, parsed_data)
+        unique_mocked_object = Mokkku::UniqueUtils.add_instance(mocked_object, 100)
 
-        const_set const_name, mocked_object
+        const_set const_name, unique_mocked_object
 
-        mocked_object
+        unique_mocked_object
       end
     end
   end
