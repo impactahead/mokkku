@@ -8,6 +8,7 @@ Japanese term Mokkku (モック) simply stands for mock. Mokkku is a simple libr
 * It generates test data in any language
 * It holds the context which make the test records as close to production values as possible so you won't end up with record where city is New York and country is France
 * The generated data is more up to date than the data that FFaker holds
+* It forces uniqueness of test data
 
 ## Configuration
 

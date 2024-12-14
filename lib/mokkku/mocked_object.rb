@@ -1,6 +1,10 @@
 module Mokkku
   class MockedObject
-    def initialize(mocks)
+    attr_reader :mocked_class
+    attr_accessor :selected_object
+
+    def initialize(mocked_class, mocks)
+      @mocked_class = mocked_class
       @mocks = mocks
       @selected_object = nil
     end
@@ -18,12 +22,7 @@ module Mokkku
     end
 
     def method_missing(method_name, *args, &block)
-      if @selected_object.nil?
-        @selected_object = mocked_objects.sample(random: Mokkku::Random)
-        @selected_object.public_send(method_name)
-      else
-        @selected_object.public_send(method_name)
-      end
+      @selected_object.public_send(method_name)
     end
   end
 end
