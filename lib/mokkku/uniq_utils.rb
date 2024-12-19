@@ -2,8 +2,6 @@ require 'set'
 
 module Mokkku
   class UniqueUtils
-    RetryLimitExceeded = Class.new(StandardError)
-
     class << self
       def add_instance(generator, max_retries)
         instances[generator.mocked_class] ||= Mokkku::UniqueUtils.new(generator, max_retries)
@@ -43,7 +41,10 @@ module Mokkku
         end
 
         if @generator.selected_object.nil?
-          raise RetryLimitExceeded, "Retry limit exceeded for #{name}"
+          previous_results.clear
+          next_object = @generator.send(:mocked_objects).sample(random: Mokkku::Random)
+          previous_results << next_object
+          @generator.instance_variable_set(:@selected_object, next_object)
         end
       end
 
