@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mokkku (0.1.1)
+    mokkku (0.1.2)
       anthropic (~> 0.3.0)
       gemini-ai (~> 4.2)
       ruby-openai (~> 7.1.0)
